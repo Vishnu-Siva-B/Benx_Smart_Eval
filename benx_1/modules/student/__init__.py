@@ -274,10 +274,11 @@ def submit_quiz():
                 )
 
             if student_answer_text:
+                m = predict_t5_transformer(student_answer_text)
 
                 mark = evaluate_mark(
                     predict_sbert(
-                        predict_t5_transformer(student_answer_text),
+                        m,
                         correct_answer["correct_answer"],
                     ),
                     float(correct_answer["marks"]),
@@ -293,6 +294,9 @@ def submit_quiz():
                     "question": correct_answer["question"],
                     "student_answer": (
                         student_answer_text if student_answer_text else "NA"
+                    ),
+                    "t5_student_answer": (
+                        m if m else "NA"
                     ),
                     "correct_answer": correct_answer["correct_answer"],
                     "student_ques_mark": mark,
